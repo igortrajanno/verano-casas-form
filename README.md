@@ -34,7 +34,23 @@ O token da API de Conversoes nunca deve ficar no `config.js`. Ele precisa ficar 
 
 1. Visitante responde o formulario.
 2. Ao sair da etapa de contato, o site salva um lead parcial em `lead_captures`.
-3. Ao finalizar o formulario, o site atualiza o mesmo registro para `capturado`.
-4. Pixel dispara `Lead` no navegador com o mesmo `eventID` do lead.
-5. Botao abre o WhatsApp com mensagem pronta.
-6. Quando a API de Conversoes for ativada, o backend/Edge Function deve enviar o mesmo `event_id` para deduplicar com o Pixel.
+3. Ao finalizar o formulario, o site chama a Edge Function `capture-lead`.
+4. A Edge Function atualiza o mesmo registro para `capturado` e tenta enviar `Lead` pela API de Conversoes.
+5. Se a Edge Function falhar, o site usa fallback REST para nao perder o lead.
+6. Pixel dispara `Lead` no navegador com o mesmo `eventID` do lead.
+7. Botao abre o WhatsApp com mensagem pronta.
+
+## Secrets da Edge Function
+
+Configure estes valores no ambiente da Supabase/self-hosted Supabase antes de ativar a API de Conversoes:
+
+- `SUPABASE_URL`: `https://bd.agenciavdois.com`
+- `SUPABASE_SERVICE_ROLE_KEY`: chave service role, apenas no backend.
+- `META_PIXEL_ID`: `773781722489081`
+- `META_CAPI_TOKEN`: token da API de Conversoes da Meta.
+- `META_API_VERSION`: versao da Graph API, exemplo `v22.0`.
+- `ALLOWED_ORIGIN`: `https://casas.veranoimobiliaria.com.br`
+
+Para testar no Gerenciador de Eventos da Meta, adicione temporariamente:
+
+- `META_TEST_EVENT_CODE`: codigo de teste exibido pela Meta.

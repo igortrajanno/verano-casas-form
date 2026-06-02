@@ -349,18 +349,15 @@ async function submitLeadCapture() {
     await state.partialSubmitPromise.catch(() => undefined);
   }
 
-  const updateExistingLead = state.partialLeadSubmitted
-    ? updateLeadCapture(payload, config)
-    : Promise.reject(new Error("Lead parcial ainda não salvo."));
+  const submitFinalLead = endpoint
+    ? sendLeadCapture(payload, endpoint, config)
+    : Promise.reject(new Error("Endpoint de captura nao configurado."));
 
-  state.finalSubmitPromise = updateExistingLead
+  state.finalSubmitPromise = submitFinalLead
     .catch((error) => {
-      console.error("Atualização do lead parcial indisponível. Tentando captura final.", error);
-      return sendLeadCapture(payload, endpoint, config).catch((endpointError) => {
-        if (!endpoint) throw endpointError;
-        console.error("Endpoint de captura indisponível. Tentando fallback REST.", endpointError);
-        return sendLeadCapture(payload, "", config, true);
-      });
+      console.error("Endpoint de captura indisponivel. Tentando fallback REST.", error);
+      if (state.partialLeadSubmitted) return updateLeadCapture(payload, config);
+      return sendLeadCapture(payload, "", config, true);
     })
     .then(() => {
       state.finalLeadSubmitted = true;
