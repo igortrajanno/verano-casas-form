@@ -5,5 +5,5 @@ window.quizConfig = {
   leadCaptureTable: "lead_captures",
   leadCaptureEndpoint: "https://bd.agenciavdois.com/functions/v1/capture-lead",
   whatsappNumber: "558699944466",
-  pixelId: "",
+  pixelId: "773781722489081",
 };
