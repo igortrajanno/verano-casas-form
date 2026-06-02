@@ -108,6 +108,30 @@ async function saveLeadCapture(payload: LeadCapturePayload) {
   const serviceRoleKey = getServiceRoleKey();
   if (!serviceRoleKey) throw new Error("Missing required secret: SUPABASE_SERVICE_ROLE_KEY");
 
+  if (payload.organization_id && payload.fb_lead_id) {
+    const organizationId = encodeURIComponent(payload.organization_id);
+    const leadId = encodeURIComponent(payload.fb_lead_id);
+    const updateResponse = await fetch(
+      `${supabaseUrl}/rest/v1/lead_captures?organization_id=eq.${organizationId}&fb_lead_id=eq.${leadId}&select=*`,
+      {
+        method: "PATCH",
+        headers: {
+          apikey: serviceRoleKey,
+          Authorization: `Bearer ${serviceRoleKey}`,
+          "Content-Type": "application/json",
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify(payload),
+      },
+    );
+
+    const updateBody = await updateResponse.text();
+    if (!updateResponse.ok) throw new Error(`Supabase update failed: ${updateBody}`);
+
+    const rows = JSON.parse(updateBody || "[]");
+    if (rows[0]) return rows[0] as Record<string, unknown>;
+  }
+
   const response = await fetch(`${supabaseUrl}/rest/v1/lead_captures`, {
     method: "POST",
     headers: {

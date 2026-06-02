@@ -21,11 +21,20 @@ No `config.js`, trocar:
 
 O token da API de Conversoes nunca deve ficar no `config.js`. Ele precisa ficar no backend, como secret/env da Edge Function ou da VPS.
 
-## Fluxo
+## Cuidados para deploy
+
+- O EasyPanel/VPS serve apenas o site estatico via `Dockerfile`.
+- A Edge Function nao roda dentro desse container do site. Ela precisa ser configurada separadamente na Supabase/self-hosted Supabase.
+- A tabela usada por este formulario e `lead_captures`.
+- O `organizationId` atual e da Verano: `9a921f04-680f-420e-893b-6c4f6508d07d`.
+- A Edge Function foi feita para ser idempotente: se receber o mesmo `organization_id` + `fb_lead_id`, ela atualiza o registro existente antes de tentar criar outro.
+- O token da API de Conversoes nunca deve ficar no frontend.
+
+## Fluxo atual
 
 1. Visitante responde o formulario.
-2. Site monta o resumo.
-3. Site tenta salvar o lead em segundo plano.
-4. Pixel dispara `Lead` no navegador com `eventID`.
-5. Edge Function salva o lead e envia o mesmo `event_id` para a API de Conversoes.
-6. Botao abre o WhatsApp com mensagem pronta.
+2. Ao sair da etapa de contato, o site salva um lead parcial em `lead_captures`.
+3. Ao finalizar o formulario, o site atualiza o mesmo registro para `capturado`.
+4. Pixel dispara `Lead` no navegador com o mesmo `eventID` do lead.
+5. Botao abre o WhatsApp com mensagem pronta.
+6. Quando a API de Conversoes for ativada, o backend/Edge Function deve enviar o mesmo `event_id` para deduplicar com o Pixel.
