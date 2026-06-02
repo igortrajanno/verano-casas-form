@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verano | Casas em Condomínio em Teresina</title>
+  <meta name="description" content="Receba uma curadoria de casas em condomínio em Teresina de acordo com seu perfil, prazo e momento de compra.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js"></script>
+  <script>
+    (function loadMetaPixel() {
+      var config = window.quizConfig || {};
+      if (!config.pixelId) return;
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', config.pixelId);
+      fbq('track', 'PageView');
+    })();
+  </script>
+</head>
+<body>
+  <main class="page-shell">
+    <section class="quiz-panel" aria-label="Formulário de captura">
+      <header class="form-header">
+        <img src="assets/verano-logo.png" alt="Imobiliária Verano">
+        <span>Casas em condomínio fechado em Teresina</span>
+      </header>
+
+      <div class="progress-row">
+        <span>Etapa <strong id="currentStep">1</strong> de <strong id="totalSteps">6</strong></span>
+        <div class="progress-track"><div id="progressBar"></div></div>
+      </div>
+
+      <form id="leadForm" novalidate>
+        <section class="step active" data-step="1">
+          <div class="step-heading">
+            <span class="step-kicker">Contato</span>
+            <h2>Preencha seus dados e receba opções alinhadas ao seu perfil</h2>
+            <p>A Verano vai selecionar as melhores opções para você.</p>
+          </div>
+
+          <div class="field-grid">
+            <label>
+              <span>Nome completo</span>
+              <input id="nome" name="nome" type="text" autocomplete="name" placeholder="Digite seu nome" required>
+            </label>
+            <label>
+              <span>WhatsApp</span>
+              <input id="telefone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(86) 99999-9999" required>
+            </label>
+            <label>
+              <span>Confirme seu WhatsApp</span>
+              <input id="telefoneConfirmacao" name="telefone_confirmacao" type="tel" inputmode="tel" placeholder="Digite novamente" required>
+            </label>
+          </div>
+        </section>
+
+        <section class="step" data-step="2">
+          <div class="step-heading">
+            <span class="step-kicker">Renda familiar</span>
+            <h2>Qual o valor da sua renda familiar?</h2>
+            <p>Essa informação ajuda a indicar opções mais compatíveis e caminhos de financiamento.</p>
+          </div>
+          <div class="options-grid" data-field="renda_familiar"></div>
+        </section>
+
+        <section class="step" data-step="3">
+          <div class="step-heading">
+            <span class="step-kicker">Região</span>
+            <h2>Qual região você prefere?</h2>
+          </div>
+          <div class="options-grid" data-field="regiao_interesse"></div>
+        </section>
+
+        <section class="step" data-step="4">
+          <div class="step-heading">
+            <span class="step-kicker">Prazo</span>
+            <h2>Quando você pretende comprar ou mudar?</h2>
+            <p>Isso define se devemos buscar unidades prontas, opções disponíveis, em entrega curta ou oportunidades de lançamento.</p>
+          </div>
+          <div class="options-grid" data-field="prazo_compra"></div>
+        </section>
+
+        <section class="step" data-step="5">
+          <div class="step-heading">
+            <span class="step-kicker">Investimento</span>
+            <h2>Qual faixa de investimento faz sentido?</h2>
+            <p>Valores mudam conforme disponibilidade, mas essa resposta evita opções fora do seu momento.</p>
+          </div>
+          <div class="options-grid" data-field="faixa_investimento"></div>
+        </section>
+
+        <section class="step" data-step="6">
+          <div class="step-heading">
+            <span class="step-kicker">Próximo passo</span>
+            <h2>Como você prefere seguir agora?</h2>
+            <p>No final, vamos abrir o WhatsApp com um resumo pronto para agilizar seu atendimento.</p>
+          </div>
+          <div class="options-grid" data-field="proximo_passo"></div>
+        </section>
+
+        <section class="step" data-step="7">
+          <div class="success-card">
+            <span class="success-icon">OK</span>
+            <h2 id="thankYouTitle">Resumo pronto para enviar</h2>
+            <p id="thankYouSubtitle">A Verano já consegue entender seu perfil e separar opções mais alinhadas.</p>
+            <div id="summaryBox" class="summary-box"></div>
+            <button type="button" class="primary-action whatsapp-action" id="whatsappBtn">Falar com a Verano</button>
+          </div>
+        </section>
+
+        <p class="form-error" id="formError" role="alert"></p>
+
+        <div class="actions" id="actions">
+          <button type="button" class="secondary-action" id="backBtn">Voltar</button>
+          <button type="button" class="primary-action" id="nextBtn">Continuar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
