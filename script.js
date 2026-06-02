@@ -495,9 +495,6 @@ function buildWhatsAppMessage() {
 }
 
 function openWhatsApp() {
-  queueLeadCapture();
-  trackLeadPixel();
-
   const number = onlyDigits(window.quizConfig.whatsappNumber);
   const message = encodeURIComponent(buildWhatsAppMessage());
 
